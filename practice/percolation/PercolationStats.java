@@ -33,16 +33,25 @@ public class PercolationStats {
 
     // low endpoint of 95% confidence interval
     public double confidenceLo() {
-        return mean() - DELTA / Math.sqrt(t);
+        return mean() - DELTA * stddev() / Math.sqrt(t);
     }
 
     // high endpoint of 95% confidence interval
     public double confidenceHi() {
-        return mean() + DELTA / Math.sqrt(t);
+        return mean() + DELTA * stddev() / Math.sqrt(t);
     }
 
     public static void main(String[] args) {
-        System.out.println();
+        int n = Integer.parseInt(args[0]);
+        int t = Integer.parseInt(args[1]);
+        PercolationStats newTest = new PercolationStats(n, t);
+        double a = newTest.mean();
+        double b = newTest.stddev();
+        double c = newTest.confidenceLo();
+        double d = newTest.confidenceHi();
+        System.out.println("mean = " + a);
+        System.out.println("stddev = " + b);
+        System.out.println("95% confidence interval = " + "[" + c + ", " + d + "]");
     }
 
 }
