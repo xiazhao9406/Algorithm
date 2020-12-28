@@ -2,7 +2,7 @@ package com.zx.collection;
 
 import java.util.Iterator;
 
-public class LinkedListStack<Item> implements Stack<Item>{
+public class LinkedListStack<Item> implements Stack<Item> {
     private Node<Item> top = null;
 
     @Override
@@ -12,7 +12,7 @@ public class LinkedListStack<Item> implements Stack<Item>{
 
     @Override
     public Item pop() {
-        if (top == null) {
+        if (isEmpty()) {
             throw new IllegalStateException();
         }
         final Item it = top.item;
@@ -26,23 +26,32 @@ public class LinkedListStack<Item> implements Stack<Item>{
     }
 
     @Override
-    public Iterator<Item> iterator() {
-        return new LinkedListStackIterator();
+    public Item peek() {
+        if (isEmpty()) {
+            throw new IllegalStateException();
+        }
+        return top.item;
     }
 
-    private class LinkedListStackIterator implements Iterator<Item> {
-        Node<Item> currentNode = top;
+    @Override
+    public Iterator<Item> iterator() {
+        return new Iterator<Item>() {
+            Node<Item> currentNode = top;
 
-        @Override
-        public boolean hasNext() {
-            return currentNode != null;
-        }
+            @Override
+            public boolean hasNext() {
+                return currentNode != null;
+            }
 
-        @Override
-        public Item next() {
-            Item it = currentNode.item;
-            currentNode = currentNode.next;
-            return it;
-        }
+            @Override
+            public Item next() {
+                if (!hasNext()) {
+                    throw new IllegalStateException();
+                }
+                final Item it = currentNode.item;
+                currentNode = currentNode.next;
+                return it;
+            }
+        };
     }
 }
