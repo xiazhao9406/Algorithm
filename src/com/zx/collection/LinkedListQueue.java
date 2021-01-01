@@ -2,21 +2,19 @@ package com.zx.collection;
 
 import java.util.Iterator;
 
-public class  LinkedListQueue<Item> implements Queue<Item>{
+public class LinkedListQueue<Item> implements Queue<Item> {
     private Node<Item> head = null;
     private Node<Item> tail = null;
 
-
     @Override
     public void enqueue(Item item) {
-        final Node<Item> oldTail = tail;
-        tail = new Node(item);
-        if (oldTail != null) {
-            oldTail.next = tail;
-        }
+        final Node<Item> it = new Node<>(item);
         if (head == null) {
-            head = tail;
+            head = it;
+        } else {
+            tail.next = it;
         }
+        tail = it;
     }
 
     @Override
@@ -25,8 +23,9 @@ public class  LinkedListQueue<Item> implements Queue<Item>{
             throw new IllegalStateException();
         }
         final Item it = head.item;
-        if (head == tail) {
-            head = tail = null;
+        if (tail == head) {
+            tail = null;
+            head = null;
         } else {
             head = head.next;
         }
@@ -40,22 +39,22 @@ public class  LinkedListQueue<Item> implements Queue<Item>{
 
     @Override
     public Iterator<Item> iterator() {
-        return new LinkedListQueueIterator();
-    }
+        return new Iterator<Item>() {
+            Node<Item> currentNode = head;
+            @Override
+            public boolean hasNext() {
+                return currentNode != null;
+            }
 
-    private class LinkedListQueueIterator implements Iterator<Item> {
-        Node<Item> currentNode = head;
-
-        @Override
-        public boolean hasNext() {
-            return head != null;
-        }
-
-        @Override
-        public Item next() {
-            Item it = currentNode.item;
-            currentNode = currentNode.next;
-            return it;
-        }
+            @Override
+            public Item next() {
+                if (!hasNext()) {
+                    throw  new IllegalStateException();
+                }
+                final Item it = currentNode.item;
+                currentNode = currentNode.next;
+                return it;
+            }
+        };
     }
 }
