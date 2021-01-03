@@ -41,6 +41,7 @@ public class LinkedListQueue<Item> implements Queue<Item> {
     public Iterator<Item> iterator() {
         return new Iterator<Item>() {
             Node<Item> currentNode = head;
+
             @Override
             public boolean hasNext() {
                 return currentNode != null;
@@ -49,7 +50,7 @@ public class LinkedListQueue<Item> implements Queue<Item> {
             @Override
             public Item next() {
                 if (!hasNext()) {
-                    throw  new IllegalStateException();
+                    throw new IllegalStateException();
                 }
                 final Item it = currentNode.item;
                 currentNode = currentNode.next;

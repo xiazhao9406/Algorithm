@@ -8,7 +8,7 @@ public class SelectionSort {
         for (int i = 0; i < items.length; i++) {
             int minIndex = i;
             for (int j = i; j < items.length; j++) {
-                 if (SortUtil.less(items[j], items[minIndex])) {
+                if (SortUtil.less(items[j], items[minIndex])) {
                     minIndex = j;
                 }
             }

@@ -9,7 +9,7 @@ public class UnionFind implements IUnionFind {
     public UnionFind(final int n) {
         this.n = n;
         group = new int[n];
-        for(int i = 0; i < n; i++)
+        for (int i = 0; i < n; i++)
             group[i] = i;
     }
 

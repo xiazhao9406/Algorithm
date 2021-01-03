@@ -33,13 +33,14 @@ public class ArrayQueue<Item> implements Queue<Item> {
 
     @Override
     public boolean isEmpty() {
-        return head == tail ;
+        return head == tail;
     }
 
     @Override
     public Iterator<Item> iterator() {
         return new Iterator<Item>() {
             int currentIndex = head;
+
             @Override
             public boolean hasNext() {
                 return currentIndex < tail;

@@ -31,7 +31,7 @@ public class SortUtil {
         }
         final Random random = new Random();
         for (int i = 0; i < items.length; i++) {
-            swap(items, i,i + random.nextInt(items.length - i));
+            swap(items, i, i + random.nextInt(items.length - i));
         }
     }
 }

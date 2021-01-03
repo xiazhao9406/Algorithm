@@ -24,6 +24,7 @@ public class ArrayBag<Item> implements Bag<Item> {
     public Iterator<Item> iterator() {
         return new Iterator<Item>() {
             int currentIndex = 0;
+
             @Override
             public boolean hasNext() {
                 return currentIndex < size;

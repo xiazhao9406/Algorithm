@@ -1,6 +1,6 @@
 package com.zx.collection;
 
-public class  Node<Item> {
+public class Node<Item> {
     public Item item;
     public Node next;
 

@@ -23,12 +23,12 @@ public class LinkedListBag<Item> implements Bag<Item> {
             Node<Item> currentNode = first;
 
             @Override
-            public boolean hasNext () {
+            public boolean hasNext() {
                 return currentNode != null;
             }
 
             @Override
-            public Item next () {
+            public Item next() {
                 if (!hasNext()) {
                     throw new IllegalStateException();
                 }
