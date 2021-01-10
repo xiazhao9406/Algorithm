@@ -26,7 +26,7 @@ class QuickSortTest {
     @Test
     void testSort2() {
         assertFalse(SortUtil.isSorted(items));
-        QuickSort.QuickThreeWaySort(items);
+        QuickSort.quickThreeWaySort(items);
         assertTrue(SortUtil.isSorted(items));
     }
 
