@@ -59,20 +59,12 @@ public class Point implements Comparable<Point> {
      * @return the slope between this point and the specified point
      */
     public double slopeTo(Point that) {
-        double slope = 0;
-        if (that.x != x || that.y != y) {
-            if (that.y == y) {
-                slope = +0.0;
-            } else if (that.x == x) {
-                slope = Double.POSITIVE_INFINITY;
-            } else {
-                slope = (double)(y - that.y) / (x - that.x);
-            }
-
-        } else {
-            slope = Double.NEGATIVE_INFINITY;
-        }
-        return slope;
+        final double dy = that.y - this.y;
+        final double dx = that.x - this.x;
+        if (0 == this.compareTo(that)) return Double.NEGATIVE_INFINITY;
+        else if (dx == 0) return Double.POSITIVE_INFINITY;
+        else if (dy == 0) return 0;
+        else return dy / dx;
     }
 
     /**
@@ -88,14 +80,9 @@ public class Point implements Comparable<Point> {
      *         argument point
      */
     public int compareTo(Point that) {
-        int result = 0;
-        if (that.x != x || that.y != y) {
-            result = y - that.y;
-            if (that.y == y) {
-                result = x - that.x;
-            }
-        }
-        return result;
+        if (this.y < that.y || (this.y == that.y && this.x < that.x)) return -1;
+        else if (this.y == that.y && this.x == that.x) return 0;
+        else return 1;
     }
 
     /**
@@ -107,14 +94,11 @@ public class Point implements Comparable<Point> {
     public Comparator<Point> slopeOrder() {
         return new Comparator<Point>() {
             @Override
-            public int compare(Point o1, Point o2) {
-                if (slopeTo(o1) == slopeTo(o2)) {
-                    return 0;
-                }
-                double a = slopeTo(o1) - slopeTo(o2);
-                if (a > 0) {
-                    return 1;
-                } else return -1;
+            public int compare(Point p1, Point p2) {
+                final double slope1 = Point.this.slopeTo(p1);
+                final double slope2 = Point.this.slopeTo(p2);
+                if (slope1 == slope2) return 0;
+                else return slope1 > slope2 ? 1 : -1;
             }
         };
     }
