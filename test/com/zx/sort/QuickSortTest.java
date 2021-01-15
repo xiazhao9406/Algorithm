@@ -3,7 +3,8 @@ package com.zx.sort;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class QuickSortTest {
     private Integer[] items;
@@ -23,6 +24,7 @@ class QuickSortTest {
         QuickSort.sort(items);
         assertTrue(SortUtil.isSorted(items));
     }
+
     @Test
     void testSort2() {
         assertFalse(SortUtil.isSorted(items));

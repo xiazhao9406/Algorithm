@@ -12,7 +12,7 @@ public class Ex09_Expression {
         final Stack<String> operands = new ArrayStack<>();
         final Stack<Character> operators = new ArrayStack<>();
 
-        for (String token: tokens) {
+        for (String token : tokens) {
 //            StdOut.println(token);
             if (token.length() != 1) {
                 continue;

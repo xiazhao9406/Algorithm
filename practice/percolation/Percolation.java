@@ -5,9 +5,9 @@ public class Percolation {
     private final WeightedQuickUnionUF unionUF;
     private final WeightedQuickUnionUF unionFindPercolation;
     private final int n;
-    private int count = 0;
     private final int top;
     private final int bottom;
+    private int count = 0;
 
     // creates n-by-n grid, with all sites initially blocked
     public Percolation(int n) {
@@ -25,6 +25,10 @@ public class Percolation {
             }
         }
         grid[top] = true;
+    }
+
+    public static void main(String[] args) {
+        System.out.println();
     }
 
     // opens the site (row, col) if it is not open already
@@ -76,7 +80,6 @@ public class Percolation {
         count++;
     }
 
-
     // is the site (row, col) open?
     public boolean isOpen(int row, int col) {
         if (row <= 0 || col <= 0 || row > n || col > n)
@@ -111,10 +114,6 @@ public class Percolation {
 
     private boolean isValid(int row, int col) {
         return row >= 1 && row <= n && col >= 1 && col <= n;
-    }
-
-    public static void main(String[] args) {
-        System.out.println();
     }
 
 }

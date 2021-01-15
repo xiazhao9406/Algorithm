@@ -11,11 +11,11 @@ public class Ex11_EvaluatePostfix {
         final String[] tokens = expression.split(" ");
         final Stack<Integer> result = new ArrayStack<>();
 
-        for (String token: tokens) {
+        for (String token : tokens) {
             if (Character.isDigit(token.charAt(0))) {
                 result.push(Integer.parseInt(token));
             } else {
-                result.push(calculate(token.charAt(0), result.pop(),result.pop()));
+                result.push(calculate(token.charAt(0), result.pop(), result.pop()));
             }
         }
         StdOut.println(result.pop());

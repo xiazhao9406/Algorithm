@@ -13,6 +13,7 @@ public class InsertionSort {
             }
         }
     }
+
     public static <Item> void sort(Item[] items, Comparator<Item> comparator) {
         if (items == null || items.length <= 1) {
             return;

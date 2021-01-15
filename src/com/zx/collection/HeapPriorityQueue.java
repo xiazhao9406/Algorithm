@@ -2,33 +2,41 @@ package com.zx.collection;
 
 import java.util.Comparator;
 
-public class HeapPriorityQueue<Item extends Comparable<Item>> implements priorityQueue<Item>{
+import static com.zx.sort.SortUtil.swap;
 
+public class HeapPriorityQueue<Item extends Comparable<Item>> implements PriorityQueue<Item> {
     private static final int DEFAULT_SIZE = 16;
-    private final Comparator<Item> comparator;
+    private final Comparator comparator;
     private Item[] items;
     private int size;
 
     public HeapPriorityQueue() {
-        comparator = null;
+        this((Comparator) null, null);
     }
 
     public HeapPriorityQueue(Comparator comparator) {
+        this(comparator, null);
+    }
+
+    public HeapPriorityQueue(Item[] items) {
+        this(null, items);
+    }
+
+    public HeapPriorityQueue(Comparator comparator, Item[] items) {
         this.comparator = comparator;
-        items = (Item[]) new Comparable[DEFAULT_SIZE];
-        size = 0;
-    }
-
-    public  HeapPriorityQueue(Item[] data) {
-        this(data, null);
-    }
-
-    public HeapPriorityQueue(Item[] data, Comparator<Item> comparable) {
-        this(comparable);
-        items = data.clone();
-        size = items.length;
-        for (int i = size / 2; i >= 0; i--) sink(i);
-
+        if (items != null) {
+            this.items = (Item[]) new Comparable[items.length];
+            for (int i = 0; i < items.length; i++) {
+                this.items[i] = items[i];
+            }
+            size = items.length;
+            for (int i = (size - 2) / 2; i >= 0; i--) {
+                sink(i);
+            }
+        } else {
+            this.items = (Item[]) new Comparable[DEFAULT_SIZE];
+            size = 0;
+        }
     }
 
     @Override
@@ -42,18 +50,21 @@ public class HeapPriorityQueue<Item extends Comparable<Item>> implements priorit
 
     @Override
     public Item max() {
-        if (isEmpty()) throw new IllegalArgumentException();
+        if (isEmpty()) throw new IllegalStateException();
         return items[0];
     }
 
     @Override
     public Item delMax() {
-        if (isEmpty()) throw new IllegalArgumentException();
-        final Item item = items[0];
-        items[0] = items[--size];
-        items[size] = null;
+        if (isEmpty()) throw new IllegalStateException();
+        final Item it = items[0];
+        swap(items, 0, size - 1);
+        size--;
         sink(0);
-        return item;
+        if (size < items.length / 4) {
+            resize(Math.max(items.length / 2, DEFAULT_SIZE));
+        }
+        return it;
     }
 
     @Override
@@ -66,37 +77,15 @@ public class HeapPriorityQueue<Item extends Comparable<Item>> implements priorit
         return size;
     }
 
-    private int left(int root) {
-        return 2 * root + 1;
-    }
-
-    private int right(int  root) {
-        return 2 * (root + 1);
-    }
-
-    private int parent(int child) {
-        return (child - 1) / 2;
-    }
-
-    private void swap(int i, int j) {
-        final Item item = items[i];
-        items[i] = items[j];
-        items[j] = item;
-    }
-
-
-    private boolean less(int thiz, int that) {
-        return (comparator != null ? comparator.compare(items[thiz], items[that]) : items[thiz].compareTo(items[that])) < 0;
-    }
-
     private void sink(int parent) {
-        final int left = left(parent), right = right(parent);
+        int left = parent * 2 + 1;
+        int right = parent * 2 + 2;
         if (left < size) {
-            if (right < size && less(left, right) && less(parent, right)) {
-                swap(parent, right);
+            if (right < size && larger(right, left) && larger(right, parent)) {
+                swap(items, right, parent);
                 sink(right);
-            } else if (less(parent, left)) {
-                swap(parent, left);
+            } else if (larger(left, parent)) {
+                swap(items, left, parent);
                 sink(left);
             }
         }
@@ -104,20 +93,24 @@ public class HeapPriorityQueue<Item extends Comparable<Item>> implements priorit
 
     private void swim(int child) {
         if (child > 0) {
-            int parent = parent(child);
-            if (less(parent, child)) {
-                swap(parent, child);
-                swim(parent);
+            if (larger(child, (child - 1) / 2)) {
+                swap(items, child, ((child - 1) / 2));
+                child = (child - 1) / 2;
+                swim(child);
             }
         }
     }
 
-
     private void resize(int capacity) {
+        if (capacity == items.length) return;
         final Item[] oldItems = items;
         items = (Item[]) new Comparable[capacity];
-        for (int i = 0; i < Math.min(oldItems.length, size); i++) {
+        for (int i = 0; i < Math.min(items.length, oldItems.length); i++) {
             items[i] = oldItems[i];
         }
+    }
+
+    private boolean larger(int i, int j) {
+        return (comparator != null ? comparator.compare(items[i], items[j]) : items[i].compareTo(items[j])) > 0;
     }
 }

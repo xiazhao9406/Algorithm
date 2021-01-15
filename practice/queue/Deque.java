@@ -9,7 +9,30 @@ public class Deque<Item> implements Iterable<Item> {
     private int size = 0;
 
     // construct an empty deque
-    public Deque() { }
+    public Deque() {
+    }
+
+    // unit testing (required)
+    public static void main(String[] args) {
+        final Deque<Integer> deque = new Deque<>();
+        StdOut.println("The deque is empty: " + deque.isEmpty());
+        deque.addFirst(1);
+        deque.addLast(2);
+        StdOut.println("Current size: " + deque.size);
+        StdOut.println("The deque is empty: " + deque.isEmpty());
+        StdOut.println("Remove first: " + deque.removeFirst());
+        StdOut.println("Remove last: " + deque.removeLast());
+        StdOut.println("Current size: " + deque.size);
+
+        for (int i = 1; i <= 3; i++) {
+            deque.addFirst(i);
+            deque.addLast(-i);
+        }
+        StdOut.println("Current size: " + deque.size);
+        for (int value : deque) {
+            StdOut.println("value : " + value);
+        }
+    }
 
     // is the deque empty?
     public boolean isEmpty() {
@@ -89,6 +112,7 @@ public class Deque<Item> implements Iterable<Item> {
     public Iterator<Item> iterator() {
         return new DequeIterator();
     }
+
     private class DequeIterator implements Iterator<Item> {
         Node<Item> currentNode = head;
 
@@ -105,28 +129,6 @@ public class Deque<Item> implements Iterable<Item> {
             final Item it = currentNode.item;
             currentNode = currentNode.next;
             return it;
-        }
-    }
-
-    // unit testing (required)
-    public static void main(String[] args) {
-        final Deque<Integer> deque = new Deque<>();
-        StdOut.println("The deque is empty: " + deque.isEmpty());
-        deque.addFirst(1);
-        deque.addLast(2);
-        StdOut.println("Current size: " + deque.size);
-        StdOut.println("The deque is empty: " + deque.isEmpty());
-        StdOut.println("Remove first: " + deque.removeFirst());
-        StdOut.println("Remove last: " + deque.removeLast());
-        StdOut.println("Current size: " + deque.size);
-
-        for (int i = 1; i <= 3; i++) {
-            deque.addFirst(i);
-            deque.addLast(-i);
-        }
-        StdOut.println("Current size: " + deque.size);
-        for (int value: deque) {
-            StdOut.println("value : " + value);
         }
     }
 

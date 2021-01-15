@@ -59,19 +59,6 @@ public class BruteCollinearPoints {
         list.toArray(result);
     }
 
-    // finds all line segments containing 4 points
-    public int numberOfSegments() {
-        return result.length;
-
-    }
-
-    // the number of line segments
-    public LineSegment[] segments() {
-        return result.clone();
-    }
-    // the line segments
-
-
     public static void main(String[] args) {
 
         // read the n points from a file
@@ -101,6 +88,18 @@ public class BruteCollinearPoints {
             segment.draw();
         }
         StdDraw.show();
+    }
+
+    // finds all line segments containing 4 points
+    public int numberOfSegments() {
+        return result.length;
+
+    }
+    // the line segments
+
+    // the number of line segments
+    public LineSegment[] segments() {
+        return result.clone();
     }
 }
 

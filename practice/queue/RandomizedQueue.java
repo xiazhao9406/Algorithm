@@ -10,7 +10,24 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     private int size = 0;
 
     // construct an empty randomized queue
-    public RandomizedQueue() { }
+    public RandomizedQueue() {
+    }
+
+    // unit testing (required)
+    public static void main(String[] args) {
+        final RandomizedQueue<Integer> randomizedQueue = new RandomizedQueue<>();
+        for (int i = 0; i < 10; i++) {
+            randomizedQueue.enqueue(i);
+        }
+        StdOut.println("Queue size: " + randomizedQueue.size());
+        for (int i = 0; i < 5; i++) {
+            StdOut.println("Sample: " + randomizedQueue.sample());
+        }
+
+        for (int i = 0; i < 10; i++) {
+            StdOut.println("Dequeue: " + randomizedQueue.dequeue());
+        }
+    }
 
     // is the randomized queue empty?
     public boolean isEmpty() {
@@ -32,7 +49,6 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         }
         items[size++] = item;
     }
-
 
     // remove and return a random item
     public Item dequeue() {
@@ -61,22 +77,6 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     // return an independent iterator over items in random order
     public Iterator<Item> iterator() {
         return new RandomizedQueueIterator();
-    }
-
-    // unit testing (required)
-    public static void main(String[] args) {
-        final RandomizedQueue<Integer> randomizedQueue = new RandomizedQueue<>();
-        for (int i = 0; i < 10; i++) {
-            randomizedQueue.enqueue(i);
-        }
-        StdOut.println("Queue size: " + randomizedQueue.size());
-        for (int i = 0; i < 5; i++) {
-            StdOut.println("Sample: " + randomizedQueue.sample());
-        }
-
-        for (int i = 0; i < 10; i++) {
-            StdOut.println("Dequeue: " + randomizedQueue.dequeue());
-        }
     }
 
     private void resize(int capacity) {

@@ -1,17 +1,13 @@
 package com.zx.collection;
 
-import com.zx.sort.SortUtil;
-
 import java.util.Comparator;
 
-import static com.zx.sort.SortUtil.less;
 
-public class OrderedPriorityQueue<Item extends Comparable<Item>> implements priorityQueue<Item>{
+public class OrderedPriorityQueue<Item extends Comparable<Item>> implements PriorityQueue<Item> {
     private static final int DEFAULT_SIZE = 16;
-    private Item[] items;
     private final Comparator comparator;
+    private Item[] items;
     private int size;
-
 
     public OrderedPriorityQueue() {
         this(null);
@@ -19,9 +15,8 @@ public class OrderedPriorityQueue<Item extends Comparable<Item>> implements prio
 
     public OrderedPriorityQueue(Comparator comparator) {
         this.comparator = comparator;
-        items = (Item[]) new Comparator[DEFAULT_SIZE];
+        items = (Item[]) new Comparable[DEFAULT_SIZE];
         size = 0;
-
     }
 
     @Override
@@ -30,26 +25,27 @@ public class OrderedPriorityQueue<Item extends Comparable<Item>> implements prio
             resize(items.length * 2);
         }
         items[size++] = item;
-        for (int i = size - 1; i >= 1 && SortUtil.less(items[i], items[i - 1]); i--) {
-            SortUtil.swap(items, i, i - 1);
+        for (int i = size - 1; i > 0 && compareIn(i, i - 1); i--) {
+            final Item it = items[i];
+            items[i] = items[i - 1];
+            items[i - 1] = it;
         }
     }
 
-
     @Override
     public Item max() {
-        if (isEmpty()) throw new IllegalArgumentException();
+        if (isEmpty()) throw new IllegalStateException();
         return items[size - 1];
     }
 
     @Override
     public Item delMax() {
-        if (isEmpty()) throw new IllegalArgumentException();
-        final Item item = items[--size];
+        if (isEmpty()) throw new IllegalStateException();
+        Item it = items[--size];
         if (size < items.length / 4) {
             resize(Math.max(items.length / 2, DEFAULT_SIZE));
         }
-        return item;
+        return it;
     }
 
     @Override
@@ -62,11 +58,15 @@ public class OrderedPriorityQueue<Item extends Comparable<Item>> implements prio
         return size;
     }
 
+    private boolean compareIn(int i, int j) {
+        return (comparator != null ? comparator.compare(items[i], items[j]) : items[i].compareTo(items[j])) < 0;
+    }
+
     private void resize(int capacity) {
-        if (items.length == capacity) return;
+        if (capacity == items.length) return;
         final Item[] oldItems = items;
-        items = (Item[]) new Comparator[capacity];
-        for (int i = 0; i < Math.min(oldItems.length, items.length); i++) {
+        items = (Item[]) new Comparable[capacity];
+        for (int i = 0; i < Math.min(items.length, oldItems.length); i++) {
             items[i] = oldItems[i];
         }
     }

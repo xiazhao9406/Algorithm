@@ -5,6 +5,7 @@ public class PercolationStats {
     private static final double DELTA = 1.96;
     private final double[] x;
     private final int t;
+
     // perform independent trials on an n-by-n grid
     public PercolationStats(int n, int trials) {
         if (n <= 0 || trials <= 0)
@@ -19,6 +20,19 @@ public class PercolationStats {
             }
             x[i] = 1.0 * test.numberOfOpenSites() / (n * n);
         }
+    }
+
+    public static void main(String[] args) {
+        int n = Integer.parseInt(args[0]);
+        int t = Integer.parseInt(args[1]);
+        PercolationStats newTest = new PercolationStats(n, t);
+        double a = newTest.mean();
+        double b = newTest.stddev();
+        double c = newTest.confidenceLo();
+        double d = newTest.confidenceHi();
+        System.out.println("mean = " + a);
+        System.out.println("stddev = " + b);
+        System.out.println("95% confidence interval = " + "[" + c + ", " + d + "]");
     }
 
     // sample mean of percolation threshold
@@ -39,19 +53,6 @@ public class PercolationStats {
     // high endpoint of 95% confidence interval
     public double confidenceHi() {
         return mean() + DELTA * stddev() / Math.sqrt(t);
-    }
-
-    public static void main(String[] args) {
-        int n = Integer.parseInt(args[0]);
-        int t = Integer.parseInt(args[1]);
-        PercolationStats newTest = new PercolationStats(n, t);
-        double a = newTest.mean();
-        double b = newTest.stddev();
-        double c = newTest.confidenceLo();
-        double d = newTest.confidenceHi();
-        System.out.println("mean = " + a);
-        System.out.println("stddev = " + b);
-        System.out.println("95% confidence interval = " + "[" + c + ", " + d + "]");
     }
 
 }

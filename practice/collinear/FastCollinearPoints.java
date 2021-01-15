@@ -9,7 +9,7 @@ import java.util.List;
 public class FastCollinearPoints {
     private final LineSegment[] lineSegment;
 
-        // finds all line segments containing 4 or more points
+    // finds all line segments containing 4 or more points
     public FastCollinearPoints(Point[] points) {
         if (points == null) throw new IllegalArgumentException();
         final int n = points.length;
@@ -65,16 +65,6 @@ public class FastCollinearPoints {
         list.toArray(lineSegment);
     }
 
-    // the number of line segments
-    public int numberOfSegments() {
-        return lineSegment == null ? 0 : lineSegment.length;
-    }
-
-    // the line segments
-    public LineSegment[] segments() {
-        return lineSegment.clone();
-    }
-
     public static void main(String[] args) {
 
         // read the n points from a file
@@ -103,5 +93,15 @@ public class FastCollinearPoints {
             segment.draw();
         }
         StdDraw.show();
+    }
+
+    // the number of line segments
+    public int numberOfSegments() {
+        return lineSegment == null ? 0 : lineSegment.length;
+    }
+
+    // the line segments
+    public LineSegment[] segments() {
+        return lineSegment.clone();
     }
 }

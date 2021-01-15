@@ -6,11 +6,11 @@ import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdOut;
 
 public class Ex04_Parentheses {
-    private static final char LEFT_PAREN    = '(';
-    private static final char RIGHT_PAREN   = ')';
-    private static final char LEFT_BRACE    = '{';
-    private static final char RIGHT_BRACE   = '}';
-    private static final char LEFT_BRACKET  = '[';
+    private static final char LEFT_PAREN = '(';
+    private static final char RIGHT_PAREN = ')';
+    private static final char LEFT_BRACE = '{';
+    private static final char RIGHT_BRACE = '}';
+    private static final char LEFT_BRACKET = '[';
     private static final char RIGHT_BRACKET = ']';
 
     public static boolean isBalanced(String s) {
