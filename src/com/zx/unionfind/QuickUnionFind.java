@@ -17,7 +17,7 @@ public class QuickUnionFind implements IUnionFind{
         while (p != parent[p]) {
             p = parent[p];
         }
-        return p;
+        return parent[p];
     }
 
     @Override
@@ -30,12 +30,12 @@ public class QuickUnionFind implements IUnionFind{
         final int rootP = find(p);
         final int rootQ = find(q);
         if (rootP == rootQ) return;
-        parent[rootQ] = rootP;
+        parent[rootP] = rootQ;
         count--;
     }
 
     @Override
     public int count() {
-        return 0;
+        return count;
     }
 }

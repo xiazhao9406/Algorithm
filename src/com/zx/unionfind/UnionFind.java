@@ -6,18 +6,15 @@ public class UnionFind implements IUnionFind{
 
     public UnionFind(int n) {
         group = new int[n];
+        count = n;
         for (int i = 0; i < n; i++) {
             group[i] = i;
         }
-        count = n;
     }
 
     @Override
     public int find(int p) {
-        while (p != group[p]) {
-            p = group[p];
-        }
-        return p;
+        return group[p];
     }
 
     @Override
