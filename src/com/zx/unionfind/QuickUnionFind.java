@@ -1,45 +1,41 @@
 package com.zx.unionfind;
 
-public class QuickUnionFind implements IUnionFind {
-    private final int[] parents;
+public class QuickUnionFind implements IUnionFind{
+    private final int[] parent;
+    private int count;
 
-    private long basicOpCount = 0;
-
-    public QuickUnionFind(final int n) {
-        parents = new int[n];
+    public QuickUnionFind(int n) {
+        parent = new int[n];
+        count = n;
         for (int i = 0; i < n; i++) {
-            parents[i] = i;
+            parent[i] = i;
         }
     }
 
     @Override
-    public boolean connected(final int p, final int q) {
-        return root(p) == root(q);
-    }
-
-    @Override
-    public void union(final int p, final int q) {
-        final int pRoot = root(p);
-        final int qRoot = root(q);
-        if (pRoot != qRoot) {
-            basicOpCount++;
-            if (pRoot > qRoot) {
-                parents[pRoot] = qRoot;
-            } else {
-                parents[qRoot] = pRoot;
-            }
-        }
-    }
-
-    private int root(int p) {
-        while (p != parents[p]) {
-            basicOpCount++;
-            p = parents[p];
+    public int find(int p) {
+        while (p != parent[p]) {
+            p = parent[p];
         }
         return p;
     }
 
-    long getBasicOpCount() {
-        return basicOpCount;
+    @Override
+    public boolean connected(int p, int q) {
+        return find(p) == find(q);
+    }
+
+    @Override
+    public void union(int p, int q) {
+        final int rootP = find(p);
+        final int rootQ = find(q);
+        if (rootP == rootQ) return;
+        parent[rootQ] = rootP;
+        count--;
+    }
+
+    @Override
+    public int count() {
+        return 0;
     }
 }

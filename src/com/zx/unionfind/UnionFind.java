@@ -1,37 +1,45 @@
 package com.zx.unionfind;
 
-public class UnionFind implements IUnionFind {
-    private final int n;
+public class UnionFind implements IUnionFind{
     private final int[] group;
+    private int count;
 
-    private long basicOpCount = 0;
-
-    public UnionFind(final int n) {
-        this.n = n;
+    public UnionFind(int n) {
         group = new int[n];
-        for (int i = 0; i < n; i++)
+        for (int i = 0; i < n; i++) {
             group[i] = i;
+        }
+        count = n;
     }
 
     @Override
-    public boolean connected(final int p, final int q) {
+    public int find(int p) {
+        while (p != group[p]) {
+            p = group[p];
+        }
+        return p;
+    }
+
+    @Override
+    public boolean connected(int p, int q) {
         return group[p] == group[q];
     }
 
     @Override
-    public void union(final int p, final int q) {
-        final int pid = group[p];
-        if (group[p] != group[q]) {
-            for (int i = 0; i < n; i++) {
-                if (group[i] == pid) {
-                    basicOpCount++;
-                    group[i] = group[q];
-                }
+    public void union(int p, int q) {
+        final int idP = group[p];
+        final int idQ = group[q];
+        if (idP == idQ) return;
+        for (int i = 0; i < group.length; i++) {
+            if (group[i] == idP) {
+                group[i] = idQ;
             }
         }
+        count--;
     }
 
-    long getBasicOpCount() {
-        return basicOpCount;
+    @Override
+    public int count() {
+        return count;
     }
 }
