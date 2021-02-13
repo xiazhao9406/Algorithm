@@ -2,7 +2,6 @@ package com.zx.collection;
 
 import java.util.Comparator;
 
-
 public class OrderedPriorityQueue<Item extends Comparable<Item>> implements PriorityQueue<Item> {
     private static final int DEFAULT_SIZE = 16;
     private final Comparator comparator;
@@ -25,7 +24,7 @@ public class OrderedPriorityQueue<Item extends Comparable<Item>> implements Prio
             resize(items.length * 2);
         }
         items[size++] = item;
-        for (int i = size - 1; i > 0 && compareIn(i, i - 1); i--) {
+        for (int i = size - 1; i > 0 && less(i, i - 1); i--) {
             final Item it = items[i];
             items[i] = items[i - 1];
             items[i - 1] = it;
@@ -58,7 +57,7 @@ public class OrderedPriorityQueue<Item extends Comparable<Item>> implements Prio
         return size;
     }
 
-    private boolean compareIn(int i, int j) {
+    private boolean less(int i, int j) {
         return (comparator != null ? comparator.compare(items[i], items[j]) : items[i].compareTo(items[j])) < 0;
     }
 
